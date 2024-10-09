@@ -1,8 +1,19 @@
 services:
   web:
     build: .
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: password
+        POSTGRES_HOST: db
     ports:
       - "3000:3000"
     volumes:
       - .:/usr/src/app
+    depends_on:
+      - db
     command: rails s -b 0.0.0.0
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
