@@ -25,9 +25,6 @@ default: &default
 
 development:
   <<: *default
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  host: <%= ENV['POSTGRES_HOST'] %>
   database: twygo_challenge_api_development
 
   # The specified database role being used to connect to PostgreSQL.
