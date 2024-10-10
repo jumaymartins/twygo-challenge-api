@@ -24,3 +24,15 @@ I recommend installing without Docker Desktop, because its only free for persona
 With web and db container running, you run command bellow:
 
 `docker compose run web rake db:migrate`
+
+## How to run tests
+You can run all tests by using command bellow:
+
+`docker compose exec web rails test`
+
+Or you can run one test file specifind it path in command bellow:
+
+`docker compose exec web rails test test_path`
+
+All command is using `exec` that will only work if you have already a web container running
+If you want to create a new container to run tests, you can replace `exec` by `run`
