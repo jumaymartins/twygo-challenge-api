@@ -1,6 +1,4 @@
 class Lecture < ApplicationRecord
-  attr_accessor :title, :references
-
   has_one_attached :video, dependent: :destroy
 
   validates :title, :video, presence: true
