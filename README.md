@@ -36,3 +36,16 @@ Or you can run one test file specifind it path in command bellow:
 
 All command is using `exec` that will only work if you have already a web container running
 If you want to create a new container to run tests, you can replace `exec` by `run`
+
+
+## Make
+If you prefer, this project has make configurated for simple commands
+
+You can see all available commands here: https://github.com/jumaymartins/twygo-challenge-api/blob/main/Makefile
+
+To use make, you have to install it with bellow commands:
+
+```
+sudo apt-get update
+sudo apt-get install make
+```
