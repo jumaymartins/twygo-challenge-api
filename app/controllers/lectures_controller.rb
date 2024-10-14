@@ -1,10 +1,11 @@
 class LecturesController < ApplicationController
+  before_action :set_course, only: %i[ create ]
   before_action :set_lecture, only: %i[ show update destroy ]
 
   def index
-    @lectures = Lecture.all
+    @lectures = Lecture.where(course_id: params[:course_id])
 
-    render json: @lectures
+    render json: @lectures, include: [ :video ]
   end
 
   def show
@@ -13,13 +14,13 @@ class LecturesController < ApplicationController
 
   def create
     @lecture = Lecture.new(lecture_params)
+    @lecture.course = @course
 
     if @lecture.save
       render json: @lecture,
         include: [ :video ],
         video: { url: rails_blob_path(@lecture.video, disposition: "attachment") },
-        status: :created,
-        location: @lecture
+        status: :created
     else
       render json: @lecture.errors, status: :unprocessable_entity
     end
@@ -40,10 +41,14 @@ class LecturesController < ApplicationController
   private
 
   def set_lecture
-    @lecture = Lecture.find(params[:id])
+    @lecture = Lecture.find_by(id: params[:id], course_id: params[:course_id])
+  end
+
+  def set_course
+    @course = Course.find(params[:course_id])
   end
 
   def lecture_params
-    params.require(:lecture).permit(:title, :references, :video)
+    params.require(:lecture).permit(:course_id, :title, :references, :video)
   end
 end

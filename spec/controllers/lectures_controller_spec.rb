@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe LecturesController, type: :controller do
+  let(:course) { create(:course) }
+
   it 'creates new lecture when is valid params' do
     post :create, params: params
 
@@ -18,7 +20,7 @@ RSpec.describe LecturesController, type: :controller do
   end
 
   it 'updates lecture with passed id' do
-    lecture = create(:lecture)
+    lecture = create(:lecture, course_id: course.id)
 
     put :update, params: params(title: 'new title').merge({ id: lecture.id })
 
@@ -28,22 +30,27 @@ RSpec.describe LecturesController, type: :controller do
     expect(updated_lecture.title).to eq('new title')
   end
 
-  it 'return all lectures' do
-    first_lecture = create(:lecture)
-    second_lecture = create(:lecture)
+  it 'return all lectures associate with same course' do
+    course = create(:course)
+    first_lecture = create(:lecture, course_id: course.id)
+    second_lecture = create(:lecture, course_id: course.id)
+    lecture_of_another_course = create(:lecture)
 
-    get :index
+    get :index, params: { course_id: course.id }
 
     parsed_response = JSON.parse(response.body)
 
     expect(response).to have_http_status(:success)
     expect(parsed_response.length).to eq(2)
+    expect(
+      parsed_response.map { |lecture| lecture["id"] }
+    ).not_to include(lecture_of_another_course.id)
   end
 
   it 'return founded lecture with passed id' do
     lecture = create(:lecture)
 
-    get :show, params: { id: lecture.id }
+    get :show, params: { id: lecture.id, course_id: lecture.course_id }
 
     parsed_response = JSON.parse(response.body)
 
@@ -54,7 +61,7 @@ RSpec.describe LecturesController, type: :controller do
   it 'delete lecture with passed id' do
     lecture = create(:lecture)
 
-    delete :destroy, params: { id: lecture.id }
+    delete :destroy, params: { id: lecture.id, course_id: lecture.course_id }
 
     found_lectures = Lecture.all
 
@@ -66,6 +73,7 @@ RSpec.describe LecturesController, type: :controller do
 
   def params(title: 'title')
     {
+      course_id: course.id,
       lecture: {
         title: title,
         references: 'references',
