@@ -22,6 +22,12 @@ RSpec.describe Lecture, type: :model do
     expect(lecture.valid?).to be false
   end
 
+  it 'permits creation of lecture when all params is valid' do
+    lecture = create_lecture
+
+    expect(lecture.valid?).to be true
+  end
+
   private
 
   def create_lecture(
