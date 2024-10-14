@@ -20,6 +20,9 @@ create-db:
 migrate:
 	@docker compose exec web rake db:migrate
 
+seeds:
+	@docker compose exec web rails db:seed
+
 rubocop:
 	@docker compose exec web rubocop
 
