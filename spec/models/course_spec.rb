@@ -15,7 +15,7 @@ RSpec.describe Course, type: :model do
 
     expect(course.valid?).to be false
   end
-  
+
   it 'validates presence of end date' do
     course = Course.new(params(end_date: nil))
 
@@ -31,7 +31,7 @@ RSpec.describe Course, type: :model do
   describe 'when end date is after actual date' do
     it 'returns that course is active' do
       Timecop.freeze(actual_time) do
-        course = Course.new(end_date: Date.new(2024,1,6))
+        course = Course.new(end_date: Date.new(2024, 1, 6))
 
         expect(course.active?).to eq(true)
       end
@@ -41,7 +41,7 @@ RSpec.describe Course, type: :model do
   describe 'when end date is before actual date' do
     it 'returns that course is not active' do
       Timecop.freeze(actual_time) do
-        course = Course.new(end_date: Date.new(2024,1,4))
+        course = Course.new(end_date: Date.new(2024, 1, 4))
 
         expect(course.active?).to eq(false)
       end
