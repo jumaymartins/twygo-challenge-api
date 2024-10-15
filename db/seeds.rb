@@ -24,7 +24,7 @@ end
 
 rails_course = Course.find_or_create_by!(
   title: 'Learning Ruby and Rails',
-  description: 'Course focaded in introduce basic features of framework Rails and to enable web development',
+  description: 'Course focused in introduce basic features of framework Rails and to enable web development',
   end_date: Date.today + 15.days
 )
 create_lectures(
@@ -38,7 +38,7 @@ create_lectures(
 
 react_course = Course.find_or_create_by!(
   title: 'Basics of React',
-  description: 'Course focaded in introduce basic of React',
+  description: 'Course focused in introduce basic of React',
   end_date: Date.today - 15.days
 )
 create_lectures(
