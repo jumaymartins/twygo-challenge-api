@@ -52,9 +52,7 @@ class ExcelGenerator
   end
 
   def calculate_total_video_size(lectures)
-    total_byte_size = lectures.map do |lecture|
-      lecture.video.byte_size
-    end.sum
+    total_byte_size = lectures.map { |lecture| lecture.video.byte_size }.sum
 
     number_to_human_size(total_byte_size)
   end
