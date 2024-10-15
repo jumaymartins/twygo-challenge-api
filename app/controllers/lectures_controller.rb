@@ -5,7 +5,7 @@ class LecturesController < ApplicationController
   def index
     @lectures = Lecture.where(course_id: params[:course_id])
 
-    render json: @lectures, include: [ :video ]
+    render json: @lectures
   end
 
   def show
@@ -17,10 +17,7 @@ class LecturesController < ApplicationController
     @lecture.course = @course
 
     if @lecture.save
-      render json: @lecture,
-        include: [ :video ],
-        video: { url: rails_blob_path(@lecture.video, disposition: "attachment") },
-        status: :created
+      render json: @lecture
     else
       render json: @lecture.errors, status: :unprocessable_entity
     end
