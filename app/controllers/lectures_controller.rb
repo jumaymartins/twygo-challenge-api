@@ -5,7 +5,7 @@ class LecturesController < ApplicationController
   def index
     @lectures = Lecture.where(course_id: params[:course_id])
 
-    render json: @lectures
+    paginate json: @lectures
   end
 
   def show
@@ -17,7 +17,7 @@ class LecturesController < ApplicationController
     @lecture.course = @course
 
     if @lecture.save
-      render json: @lecture
+      render json: @lecture, status: :created
     else
       render json: @lecture.errors, status: :unprocessable_entity
     end

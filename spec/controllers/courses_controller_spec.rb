@@ -38,8 +38,8 @@ RSpec.describe CoursesController, type: :controller do
     parsed_response = JSON.parse(response.body)
 
     expect(response).to have_http_status(:success)
-    expect(parsed_response.length).to eq(2)
-    expect(parsed_response.map { |course| course["id"] }).not_to include(inative_course.id)
+    expect(parsed_response["data"].length).to eq(2)
+    expect(parsed_response["data"].map { |course| course["id"] }).not_to include(inative_course.id)
   end
 
   it 'return founded course with passed id' do
@@ -50,7 +50,7 @@ RSpec.describe CoursesController, type: :controller do
     parsed_response = JSON.parse(response.body)
 
     expect(response).to have_http_status(:success)
-    expect(parsed_response["title"]).to eq(course.title)
+    expect(parsed_response["data"]["attributes"]["title"]).to eq(course.title)
   end
 
   it 'delete course with passed id' do

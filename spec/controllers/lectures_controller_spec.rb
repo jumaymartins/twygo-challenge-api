@@ -41,9 +41,9 @@ RSpec.describe LecturesController, type: :controller do
     parsed_response = JSON.parse(response.body)
 
     expect(response).to have_http_status(:success)
-    expect(parsed_response.length).to eq(2)
+    expect(parsed_response["data"].length).to eq(2)
     expect(
-      parsed_response.map { |lecture| lecture["id"] }
+      parsed_response["data"].map { |lecture| lecture["id"] }
     ).not_to include(lecture_of_another_course.id)
   end
 
@@ -55,7 +55,7 @@ RSpec.describe LecturesController, type: :controller do
     parsed_response = JSON.parse(response.body)
 
     expect(response).to have_http_status(:success)
-    expect(parsed_response["title"]).to eq(lecture.title)
+    expect(parsed_response["data"]["attributes"]["title"]).to eq(lecture.title)
   end
 
   it 'delete lecture with passed id' do

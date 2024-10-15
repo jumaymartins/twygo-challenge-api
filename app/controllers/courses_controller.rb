@@ -4,7 +4,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.where("end_date >= ?", Date.today).order(created_at: :desc)
 
-    render json: @courses
+    paginate json: @courses
   end
 
   def show
